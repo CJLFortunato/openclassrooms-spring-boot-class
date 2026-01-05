@@ -1,5 +1,9 @@
-package com.openclassrooms.watchlist;
+package com.openclassrooms.watchlist.domain;
 
+
+import com.openclassrooms.watchlist.validation.GoodMovie;
+import com.openclassrooms.watchlist.validation.Priority;
+import com.openclassrooms.watchlist.validation.Rating;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

@@ -1,4 +1,4 @@
-package com.openclassrooms.watchlist;
+package com.openclassrooms.watchlist.controller;
 
 import org.springframework.boot.webmvc.error.ErrorController;
 import org.springframework.http.HttpStatus;
