@@ -3,6 +3,8 @@ package com.openclassrooms.watchlist.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class WatchlistController {
 
     private WatchlistService watchlistService;
+    private final Logger logger = LoggerFactory.getLogger(WatchlistController.class);
 
     @Autowired
     public WatchlistController (WatchlistService watchlistService) {
@@ -35,10 +38,11 @@ public class WatchlistController {
 
     @GetMapping("/watchlist")
     public ModelAndView getWatchlist() {
+        logger.info("HTTP GET request received at /watchlist");
 
         String viewName = "watchlist";
         Map<String, Object> model = new HashMap<String, Object>();
-        
+
         model.put("watchlistItems", watchlistService.getWatchlistItems());
         model.put("numberOfMovies", watchlistService.getWatchlistSize());
 
@@ -47,8 +51,10 @@ public class WatchlistController {
 
     @GetMapping("/watchlistItemForm")
     public ModelAndView showWatchlistItemForm(@RequestParam(required = false) Integer id) {
+        logger.info("HTTP GET request received at /watchlistItemForm");
+
         String viewName = "watchlistItemForm";
-        
+
         Map<String,Object> model = new HashMap<String,Object>();
         WatchlistItem item = watchlistService.findWatchlistItemById(id);
         if (item == null) {
@@ -57,12 +63,14 @@ public class WatchlistController {
         else {
             model.put("watchlistItem", item);
         }
-        
-        return new ModelAndView(viewName,model); 
+
+        return new ModelAndView(viewName,model);
     }
 
     @PostMapping("/watchlistItemForm")
     public ModelAndView submitForm(@Valid WatchlistItem item, BindingResult bindingResult) {
+        logger.info("HTTP POST request received at /watchlistItemForm");
+
         if (bindingResult.hasErrors()) {
             return new ModelAndView("watchlistItemForm");
         }
@@ -81,7 +89,7 @@ public class WatchlistController {
 
         RedirectView redirect = new RedirectView();
         redirect.setUrl("/watchlist");
-        
+
         return new ModelAndView(redirect);
     }
 }

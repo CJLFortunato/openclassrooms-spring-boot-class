@@ -1,5 +1,7 @@
 package com.openclassrooms.watchlist.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.webmvc.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -11,18 +13,20 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class CustomErrorController implements ErrorController{
 
+    private final Logger logger = LoggerFactory.getLogger(CustomErrorController.class);
+
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         //do something like logging
         if (status != null) {
         Integer statusCode = Integer.valueOf(status.toString());
-    
+
         if(statusCode == HttpStatus.NOT_FOUND.value()) {
             return "error_notfound";
         }
     }
-        System.out.println("There was an error");
+        logger.error("There was an error at {}");
         return "error";
     }
 }
